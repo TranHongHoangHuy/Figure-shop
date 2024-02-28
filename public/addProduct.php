@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studio = $_POST["studio"];
     $productPrice = $_POST["productPrice"];
     $scale = $_POST["scale"];
-    // $img = $_POST["img"];
     $img = $_FILES['img']['tmp_name'];
     $quantity = $_POST["quantity"];
 
@@ -52,14 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $catalogs = $pdo->query("SELECT * FROM catalog")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<?php
+require_once '../partials/header.php';
+?>
 
 <body>
     <div class="container">
@@ -81,16 +75,11 @@ $catalogs = $pdo->query("SELECT * FROM catalog")->fetchAll(PDO::FETCH_ASSOC);
                 <label for="productPrice">Giá figuge:</label>
                 <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Nhập giá" required>
             </div>
-            <!-- <div class="form-group">
-                <label for="img">Link ảnh:</label>
-                <input type="text" class="form-control" id="img" name="img" placeholder="Nhập link ảnh">
-            </div> -->
 
             <div class="form-group">
                 <label for="img">Chọn ảnh từ file:</label>
                 <input type="file" class="form-control" id="img" name="img">
             </div>
-
 
             <div class="form-group">
                 <label for="additionalImages">Ảnh phụ:</label>
@@ -113,6 +102,12 @@ $catalogs = $pdo->query("SELECT * FROM catalog")->fetchAll(PDO::FETCH_ASSOC);
             <button type="submit" name="submit" class="btn btn-primary">Thêm</button>
         </form>
     </div>
+    <script src="../assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
+<?php
+require_once "../partials/footer.php"
+?>
 
 </html>

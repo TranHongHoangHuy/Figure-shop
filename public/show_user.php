@@ -1,10 +1,10 @@
 <?php
 require_once '../src/DBConnection.php';
-require_once '../src/Product.php';
+require_once '../src/User.php';
 
 $pdo = DBConnection::getConnection(); // Kết nối đến cơ sở dữ liệu
-$productManager = new Product($pdo);
-$products = $productManager->getAllProducts();
+$userManager = new User($pdo);
+$users = $userManager->getAllUser();
 
 ?>
 <?php
@@ -14,39 +14,42 @@ require_once '../partials/header.php';
 <body>
     <main style="min-height: 500px;">
         <div class="container mt-5 mb-5">
-            <h1 class="text-center">Thông tin sản phẩm</h1>
-            <a href="./addProduct.php" class="btn btn-primary" style="margin-bottom: 30px;">
-                <i class="fa fa-plus"></i> Thêm sản phẩm</a>
+            <h1 class="text-center">Thông tin user</h1>
+            <a href="./add_user.php" class="btn btn-primary" style="margin-bottom: 30px;">
+                <i class="fa fa-plus"></i> Thêm user</a>
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Ảnh</th>
                         <th>Tên</th>
-                        <th>Studio</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Kích thước</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Đơn hàng</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($products as $product) : ?>
+                    <?php foreach ($users as $user) : ?>
                         <tr>
-                            <td><img src="<?php echo $product['img']; ?>" style="height: 100px;"></td>
-                            <td class="td-center"><?php echo $product['productName']; ?></td>
-                            <td class="td-center"><?php echo $product['studio']; ?></td>
-                            <td class="td-center"><span><?php echo number_format($product['productPrice'], 0, '.', '.'); ?>đ</span></td>
-                            <td class="td-center"><?php echo $product['quantity']; ?></td>
-                            <td class="td-center"><?php echo $product['scale']; ?></td>
+                            <td class="td-center"><?php echo $user['name']; ?></td>
+                            <td class="td-center"><?php echo $user['address']; ?></td>
+                            <td class="td-center"><?php echo $user['phone']; ?></td>
                             <td class="td-center" style="height: auto; text-align: center; line-height: auto;">
-                                <form method="post" action="edit_product.php" style="margin-bottom: 5px;">
-                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                <form method="post" action="show_bill_user.php" style="margin-bottom: 5px;">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                                    <button type="submit" class="btn btn-xs btn-primary" name="detail">
+                                        <i alt="Xem" class="fa fa-pencil"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="td-center" style="height: auto; text-align: center; line-height: auto;">
+                                <form method="post" action="edit_user.php" style="margin-bottom: 5px;">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <button type="submit" class="btn btn-xs btn-primary" name="detail">
                                         <i alt="Edit" class="fa fa-pencil"></i>
                                     </button>
                                 </form>
-                                <form method="post" action="delete_product.php">
-                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                <form method="post" action="delete_user.php">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <button type="submit" class="btn btn-xs btn-danger" name="delete">
                                         <i alt="Delete" class="fa fa-trash"></i>
                                     </button>
@@ -57,12 +60,10 @@ require_once '../partials/header.php';
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>Ảnh</th>
                         <th>Tên</th>
-                        <th>Studio</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Kích thước</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Đơn hàng</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -74,7 +75,7 @@ require_once '../partials/header.php';
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        document.title = "San pham";
+        document.title = "Người dùng";
         $(document).ready(function() {
             $('#example').DataTable();
         });

@@ -97,4 +97,11 @@ class Product
             $this->updateProductImage($product_id, $additionalImagePaths);
         }
     }
+
+    function getTotalNumberOfProduct()
+    {
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM product");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 }

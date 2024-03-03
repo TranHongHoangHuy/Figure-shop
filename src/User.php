@@ -72,17 +72,22 @@ class User
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
         // Nếu có người dùng, thực hiện đăng nhập
-        if ($user) {
+        if ($user && password_verify($password, $user['password'])) {
             // Lưu thông tin người dùng vào session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role_id'] = $user['role_id'];
 
-            // Chuyển hướng người dùng đến trang chính
-            header('Location: home.php');
-            exit;
+            // Kiểm tra nếu là admin, chuyển hướng đến trang admin.php
+            if ($this->isAdmin($user['user_id'])) {
+                header('Location: admin.php');
+                exit;
+            } else {
+                // Ngược lại, chuyển hướng đến trang chính
+                header('Location: index.php');
+                exit;
+            }
         } else {
-            // Người dùng không tồn tại hoặc thông tin đăng nhập không chính xác
             return false;
         }
     }
@@ -157,5 +162,12 @@ class User
     {
         $query = $this->db->prepare("DELETE FROM users WHERE user_id = ?");
         return $query->execute([$user_id]);
+    }
+
+    function getTotalNumberOfUsers()
+    {
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM users");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
     }
 }

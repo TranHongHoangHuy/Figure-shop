@@ -67,28 +67,30 @@ class User
     public function login($email, $password)
     {
         // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
-        $query = $this->db->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-        $query->execute([$email, $password]);
+        $query = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $query->execute([$email]);
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
         // Nếu có người dùng, thực hiện đăng nhập
         if ($user && password_verify($password, $user['password'])) {
             // Lưu thông tin người dùng vào session
             $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
+            $_SESSION['name'] = $user['name'];
             $_SESSION['role_id'] = $user['role_id'];
 
             // Kiểm tra nếu là admin, chuyển hướng đến trang admin.php
             if ($this->isAdmin($user['user_id'])) {
-                header('Location: admin.php');
+                header('Location: test.php');
                 exit;
             } else {
                 // Ngược lại, chuyển hướng đến trang chính
-                header('Location: index.php');
+                header('Location: test.php');
                 exit;
             }
         } else {
-            return false;
+            // return false;
+            header('Location: test.php');
+            exit;
         }
     }
 

@@ -2,40 +2,18 @@
 session_start();
 require_once '../src/DBConnection.php';
 require_once '../src/User.php';
-
 $pdo = DBConnection::getConnection(); // Kết nối đến cơ sở dữ liệu
+
 
 // Xử lý form đăng nhập
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $userManager = new User($pdo);
     // Lấy giá trị nhập từ form
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
-    $query = $pdo->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-    $query->execute([$email, $password]);
-    $user = $query->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        // Lưu thông tin người dùng vào session
-        $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['role_id'] = $user['role_id'];
-
-        // Kiểm tra nếu là admin, chuyển hướng đến trang admin.php
-        if ($user['role_id'] == 2) {
-            header('Location: test.php');
-            exit;
-        } else {
-            // Ngược lại, chuyển hướng đến trang chính
-            header('Location: test.php');
-            exit;
-        }
-    } else {
-        echo "<script>alert('Bạn đã nhập sai thông tin đăng nhập');</script>";
-        header('Location: test.php');
-        exit;
-    }
+    $userManager->login($email, $password);
 }
 
 ?>

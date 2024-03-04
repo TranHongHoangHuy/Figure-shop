@@ -21,53 +21,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
 <?php
-require_once '../partials/header.php';
+require '../partials/header_admin.php';
 ?>
 
 <body>
-    <form method="post" action="">
-        <div class="card_lgi_container">
-            <div class="card_lgi">
-                <a class="card_lgi_login mt-2">Sign up</a>
-                <div class="card_lgi_inputBox">
-                    <input type="text" required="required" name="name" value="" id="name">
-                    <span class="user">Name</span>
-                </div>
-                <div class="card_lgi_inputBox">
-                    <input type="text" required="required" name="username" value="" id="username">
-                    <span class="user">Username</span>
-                </div>
+    <!-- Sidebar -->
+    <?php
+    require '../partials/sidebar_admin.php';
+    ?>
+    <!-- End of Sidebar -->
 
-                <div class="card_lgi_inputBox">
-                    <input type="password" required="required" name="password" value="" id="password">
-                    <span>Password</span>
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <?php
+        require '../partials/navbar_admin.php';
+        ?>
+        <!-- End of Navbar -->
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Khách hàng</h1>
                 </div>
-
-                <div class="card_lgi_inputBox">
-                    <input type="email" required="required" name="email" value="" id="email">
-                    <span>Email</span>
-                </div>
-
-                <div class="card_lgi_inputBox">
-                    <input type="tel" required="required" pattern="[0-9]{10}" name="phone" value="" id="phone">
-                    <span>Phone number</span>
-                </div>
-
-                <div class="card_lgi_inputBox">
-                    <input type="text" required="required" name="address" value="" id="address">
-                    <span>Address</span>
-                </div>
-                <button class="card_lgi_enter" type="submit" name="submit" value="Register">Enter</button>
             </div>
-        </div>
-    </form>
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>Thêm khách hàng</h3>
+                    </div>
+
+                    <!-- Them san pham -->
+                    <div class="container">
+                        <form method="post" action="">
+                            <div class="form-group">
+                                <label for="productName">Tên khách hàng:</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên khách hàng" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Nhập username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Nhập password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập SĐT" required="required" pattern="[0-9]{10}">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Địa chỉ:</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ" required>
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary">Thêm</button>
+                        </form>
+                    </div>
+                    <!-- End them san pham -->
+                </div>
+            </div>
+        </main>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../assets/js/admin_dash_board.js"></script>
     <script>
-        document.title = "Đăng ký";
+        document.title = "Khách hàng";;
     </script>
 </body>
 

@@ -80,11 +80,11 @@ class User
 
             // Kiểm tra nếu là admin, chuyển hướng đến trang admin.php
             if ($this->isAdmin($user['user_id'])) {
-                header('Location: test.php');
+                header('Location: admin_dash_board.php');
                 exit;
             } else {
                 // Ngược lại, chuyển hướng đến trang chính
-                header('Location: test.php');
+                header('Location: index.php');
                 exit;
             }
         } else {

@@ -64,3 +64,14 @@ toggler.addEventListener("change", function () {
 $(document).ready(function () {
   $("#example").DataTable();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".status").forEach((status) => {
+    status.addEventListener("click", function () {
+      const bill_id = this.dataset.bill_id;
+      document.getElementById("bill_id").value = bill_id;
+      const modal = new bootstrap.Modal(document.getElementById("statusModal"));
+      modal.show();
+    });
+  });
+});

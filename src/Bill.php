@@ -16,6 +16,16 @@ class Bill
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllBillByBillId($bill_id)
+    {
+        $query = $this->db->query("SELECT bill.*, users.name, users.email, users.phone, users.address
+                                    FROM bill
+                                    INNER JOIN users ON bill.user_id = users.user_id
+                                    WHERE bill.bill_id = ?");
+        $query->execute([$bill_id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAllBillByUserId($user_id)
     {
         $query = $this->db->prepare("SELECT bill.*, users.name, users.email, users.phone, users.address
@@ -34,9 +44,16 @@ class Bill
         return $query->rowCount(); // Trả về số dòng đã được cập nhật
     }
 
+    public function notConfirmOrder($bill_id)
+    {
+        $query = $this->db->prepare("UPDATE bill SET status = 'Chưa xác nhận' WHERE bill_id = ?");
+        $query->execute([$bill_id]);
+        return $query->rowCount(); // Trả về số dòng đã được cập nhật
+    }
+
     public function markOrderDelivered($bill_id)
     {
-        $query = $this->db->prepare("UPDATE bill SET status = 'Đã giao hàng thành công' WHERE bill_id = ?");
+        $query = $this->db->prepare("UPDATE bill SET status = 'Đã giao hàng' WHERE bill_id = ?");
         $query->execute([$bill_id]);
         return $query->rowCount(); // Trả về số dòng đã được cập nhật
     }
@@ -57,7 +74,9 @@ class Bill
 
     public function getBillDetail($bill_id)
     {
-        $query = $this->db->prepare("SELECT * FROM bill_details WHERE bill_id = ?");
+        $query = $this->db->prepare("SELECT bill_details.*, product.* FROM bill_details
+                                    INNER JOIN product ON bill_details.product_id = product.product_id
+                                    WHERE bill_details.bill_id = ?");
         $query->execute([$bill_id]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }

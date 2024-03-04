@@ -51,63 +51,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $catalogs = $pdo->query("SELECT * FROM catalog")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
 <?php
-require_once '../partials/header.php';
+require '../partials/header_admin.php';
 ?>
 
 <body>
-    <div class="container">
-        <h1>Thêm figure</h1>
-        <form method="post" action="" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="catalog_id">Danh mục figure:</label>
-                <select class="form-control" id="catalog_id" name="catalog_id">
-                    <?php foreach ($catalogs as $catalog) : ?>
-                        <option value="<?= $catalog['catalog_id'] ?>"><?= $catalog['catalogName'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="productName">Tên figuge:</label>
-                <input type="text" class="form-control" id="productName" name="productName" placeholder="Nhập tên figuge" required>
-            </div>
-            <div class="form-group">
-                <label for="productPrice">Giá figuge:</label>
-                <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Nhập giá" required>
-            </div>
+    <!-- Sidebar -->
+    <?php
+    require '../partials/sidebar_admin.php';
+    ?>
+    <!-- End of Sidebar -->
 
-            <div class="form-group">
-                <label for="img">Chọn ảnh từ file:</label>
-                <input type="file" class="form-control" id="img" name="img">
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <?php
+        require '../partials/navbar_admin.php';
+        ?>
+        <!-- End of Navbar -->
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Sản phẩm</h1>
+                </div>
             </div>
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>Thêm sản phẩm</h3>
+                    </div>
 
-            <div class="form-group">
-                <label for="additionalImages">Ảnh phụ:</label>
-                <input type="file" class="form-control" id="additionalImages" name="additionalImages[]" multiple>
-                <small id="additionalImagesHelp" class="form-text text-muted">Bạn có thể chọn nhiều ảnh bằng cách giữ phím Ctrl hoặc Shift khi chọn.</small>
-            </div>
+                    <!-- Them san pham -->
+                    <div class="container">
+                        <form method="post" action="" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="catalog_id">Danh mục figure:</label>
+                                <select class="form-control" id="catalog_id" name="catalog_id">
+                                    <?php foreach ($catalogs as $catalog) : ?>
+                                        <option value="<?= $catalog['catalog_id'] ?>"><?= $catalog['catalogName'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productName">Tên figuge:</label>
+                                <input type="text" class="form-control" id="productName" name="productName" placeholder="Nhập tên figuge" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Giá figuge:</label>
+                                <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Nhập giá" required>
+                            </div>
 
-            <div class="form-group">
-                <label for="content">Studio:</label>
-                <textarea class="form-control" id="studio" name="studio" placeholder="Nhập mã" required></textarea>
+                            <div class="form-group">
+                                <label for="img">Chọn ảnh từ file:</label>
+                                <input type="file" class="form-control" id="img" name="img">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="additionalImages">Ảnh phụ:</label>
+                                <input type="file" class="form-control" id="additionalImages" name="additionalImages[]" multiple>
+                                <small id="additionalImagesHelp" class="form-text text-muted">Bạn có thể chọn nhiều ảnh bằng cách giữ phím Ctrl hoặc Shift khi chọn.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Studio:</label>
+                                <textarea class="form-control" id="studio" name="studio" placeholder="Nhập mã" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Số lượng:</label>
+                                <textarea class="form-control" id="quantity" name="quantity" placeholder="Nhập số lượng" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Kích thước:</label>
+                                <textarea class="form-control" id="scale" name="scale" placeholder="Nhập kích thước" required></textarea>
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary">Thêm</button>
+                        </form>
+                    </div>
+                    <!-- End them san pham -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="content">Số lượng:</label>
-                <textarea class="form-control" id="quantity" name="quantity" placeholder="Nhập số lượng" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="content">Kích thước:</label>
-                <textarea class="form-control" id="scale" name="scale" placeholder="Nhập kích thước" required></textarea>
-            </div>
-            <button type="submit" name="submit" class="btn btn-primary">Thêm</button>
-        </form>
+        </main>
     </div>
-    <script src="../assets/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../assets/js/admin_dash_board.js"></script>
+
+    <script>
+        document.title = "Sản phẩm";;
+    </script>
 </body>
-<?php
-require_once "../partials/footer.php"
-?>
 
 </html>

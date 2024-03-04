@@ -1,1 +1,1 @@
-alert("đã kết nối");
+// alert("đã kết nối");

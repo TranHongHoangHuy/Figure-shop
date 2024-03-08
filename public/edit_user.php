@@ -56,10 +56,6 @@ require '../partials/header_admin.php';
                                 <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($users['name']) ?>">
                             </div>
                             <div class="form-group">
-                                <label for="name">Tên đăng nhập</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<?= htmlspecialchars($users['username']) ?>">
-                            </div>
-                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($users['email']) ?>">
                             </div>

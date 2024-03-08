@@ -118,7 +118,7 @@ require '../partials/header_admin.php';
 
                             <div class="form-group">
                                 <label for="content">Studio:</label>
-                                <textarea class="form-control" id="studio" name="studio" placeholder="Nhập mã" required></textarea>
+                                <input type="text" class="form-control" id="studio" name="studio" placeholder="Nhập mã" required></input>
                             </div>
                             <div class="form-group">
                                 <label for="content">Số lượng:</label>

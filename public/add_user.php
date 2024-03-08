@@ -7,14 +7,13 @@ $pdo = DBConnection::getConnection(); // Kết nối đến cơ sở dữ liệu
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userManager = new User($pdo);
     // Lấy dữ liệu từ form
-    $username = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];
     $name = $_POST['name'];
     $address = $_POST['address'];
     $phone = $_POST['phone'];
 
-    $userManager->addUser($username, $password, $email, $name, $address, $phone);
+    $userManager->addUser($email, $password, $name, $address, $phone);
     echo "Đã thêm khách hàng";
     $_POST = array();
     header('Location: show_user.php');
@@ -97,7 +96,7 @@ require '../partials/header_admin.php';
     <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="../assets/js/admin_dash_board.js"></script>
     <script>
-        document.title = "Khách hàng";;
+        document.title = "Khách hàng";
     </script>
 </body>
 

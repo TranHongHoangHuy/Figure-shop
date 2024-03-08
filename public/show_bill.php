@@ -67,6 +67,9 @@ require '../partials/header_admin.php';
                                         case 'Đã xác nhận':
                                             $statusClass = 'process';
                                             break;
+                                        case 'Đã hủy đơn':
+                                            $statusClass = 'cancelled';
+                                            break;
                                         default:
                                             $statusClass = 'pending';
                                             break;
@@ -114,6 +117,7 @@ require '../partials/header_admin.php';
                                 <option value="pending">Chưa xác nhận</option>
                                 <option value="confirmed">Đã xác nhận</option>
                                 <option value="delivered">Đã giao hàng</option>
+                                <option value="cancelled">Đã hủy đơn</option>
                             </select>
                         </div>
                         <div class="modal-footer">

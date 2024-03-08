@@ -153,6 +153,9 @@ require '../partials/header_admin.php';
                                         case 'Đã xác nhận':
                                             $statusClass = 'process';
                                             break;
+                                        case 'Đã hủy đơn':
+                                            $statusClass = 'cancelled';
+                                            break;
                                         default:
                                             $statusClass = 'pending';
                                             break;

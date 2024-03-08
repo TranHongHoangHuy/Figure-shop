@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <a href="#" class="float-end text-primary">Forgot Password?</a>
+                                            <a href="./signup.php" class="float-end text-primary">Đăng ký</a>
                                         </div>
 
                                         <div class="col-12">

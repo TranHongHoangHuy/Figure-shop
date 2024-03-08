@@ -60,7 +60,7 @@ class Bill
 
     public function billReturn($bill_id)
     {
-        $query = $this->db->prepare("UPDATE bill SET status = 'Bị hoàn lại' WHERE bill_id = ?");
+        $query = $this->db->prepare("UPDATE bill SET status = 'Đã hủy đơn' WHERE bill_id = ?");
         $query->execute([$bill_id]);
         return $query->rowCount(); // Trả về số dòng đã được cập nhật
     }
@@ -94,5 +94,19 @@ class Bill
         $query = $this->db->query("SELECT COUNT(*) AS total FROM bill");
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
+    }
+
+    public function createBill($user_id, $totalAmount, $notes)
+    {
+        $query = $this->db->prepare("INSERT INTO bill (user_id, total_amount, notes) VALUES (?, ?, ?)");
+        $query->execute([$user_id, $totalAmount, $notes]);
+        // Trả về bill_id của bản ghi vừa được thêm vào
+        return $this->db->lastInsertId();
+    }
+
+    public function addBillDetail($bill_id, $product_id, $bill_quantity)
+    {
+        $query = $this->db->prepare("INSERT INTO bill_details (bill_id, product_id, bill_quantity) VALUES (?, ?, ?)");
+        $query->execute([$bill_id, $product_id, $bill_quantity]);
     }
 }

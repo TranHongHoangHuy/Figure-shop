@@ -38,10 +38,10 @@ class User
         return ($role == 2); // Nếu role_id là 2 (admin) thì trả về true, ngược lại trả về false
     }
 
-    public function addUser($username, $password, $email, $name, $address, $phone)
+    public function addUser($email, $password, $name, $address, $phone)
     {
         // Kiểm tra xem người dùng đã tồn tại hay chưa
-        if ($this->isUserExistsByEmail($username, $email)) {
+        if ($this->isUserExistsByEmail($email)) {
             return false;
         }
 
@@ -49,16 +49,16 @@ class User
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Thêm người dùng mới vào cơ sở dữ liệu
-        $query = $this->db->prepare("INSERT INTO users (username, password, email, name, address, phone) VALUES (?, ?, ?, ?, ?, ?)");
-        $query->execute([$username, $hashed_password, $email, $name, $address, $phone]);
+        $query = $this->db->prepare("INSERT INTO users (email, password,  name, address, phone) VALUES (?, ?, ?, ?, ?)");
+        $query->execute([$email, $hashed_password, $name, $address, $phone]);
 
         return true;
     }
 
-    public function isUserExistsByEmail($username, $email)
+    public function isUserExistsByEmail($email)
     {
-        $query = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ? AND email = ?");
-        $query->execute([$username, $email]);
+        $query = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $query->execute([$email]);
         $count = $query->fetchColumn();
 
         return ($count > 0); // Trả về true nếu người dùng đã tồn tại, ngược lại trả về false
@@ -84,7 +84,7 @@ class User
                 exit;
             } else {
                 // Ngược lại, chuyển hướng đến trang chính
-                header('Location: index.php');
+                header('Location: ../index.php');
                 exit;
             }
         } else {
@@ -112,7 +112,6 @@ class User
         }
 
         // Lấy dữ liệu từ form
-        $username = $postData["username"];
         $email = $postData["email"];
         $name = $postData["name"];
         $address = $postData["address"];
@@ -135,8 +134,8 @@ class User
         }
 
         // Cập nhật thông tin người dùng vào cơ sở dữ liệu
-        $query = $this->db->prepare("UPDATE users SET username = ?, email = ?, name = ?, address = ?, phone = ? WHERE user_id = ?");
-        $result = $query->execute([$username, $email, $name, $address, $phone, $user_id]);
+        $query = $this->db->prepare("UPDATE users SET email = ?, name = ?, address = ?, phone = ? WHERE user_id = ?");
+        $result = $query->execute([$email, $name, $address, $phone, $user_id]);
 
         return $result ? true : false; // Trả về true nếu cập nhật thành công, ngược lại trả về false
     }

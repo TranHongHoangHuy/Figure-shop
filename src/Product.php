@@ -15,6 +15,22 @@ class Product
                                     INNER JOIN catalog ON product.catalog_id = catalog.catalog_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+    //lấy theo catalog_id
+    public function getProductByCatalogId($catalog_id)
+    {
+        $query = $this->db->prepare("SELECT product.*, catalog.catalogName 
+                                    FROM product 
+                                    INNER JOIN catalog ON product.catalog_id = catalog.catalog_id
+                                    WHERE product.catalog_id = ?");
+        $query->execute([$catalog_id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+    //Lấy 8 sp mới nhất
+    public function getRecentProducts()
+    {
+        $query = $this->db->query("SELECT * FROM product ORDER BY product_id DESC");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getProductByProductId($product_id)
     {
@@ -59,10 +75,24 @@ class Product
         }
     }
 
-    public function updateProductImage($product_id, $imagePath)
+    public function deleteProductImages($product_id)
     {
-        $query = $this->db->prepare("UPDATE imglist SET img_path = ? WHERE product_id = ?");
-        return $query->execute([$imagePath, $product_id]);
+        // Xóa tất cả ảnh phụ hiện tại của sản phẩm
+        $deleteQuery = $this->db->prepare("DELETE FROM imglist WHERE product_id = ?");
+        $deleteQuery->execute([$product_id]);
+    }
+
+    public function updateProductImage($product_id, $imagePaths)
+    {
+        //Xóa tất cả ảnh phụ hiện tại của sản phẩm
+        $deleteQuery = $this->db->prepare("DELETE FROM imglist WHERE product_id = ?");
+        $deleteQuery->execute([$product_id]);
+
+        // Thêm các ảnh phụ mới vào cơ sở dữ liệu
+        $insertQuery = $this->db->prepare("INSERT INTO imglist (product_id, img_path) VALUES (?, ?)");
+        foreach ($imagePaths as $imagePath) {
+            $insertQuery->execute([$product_id, $imagePath]);
+        }
     }
 
     public function updateProductInfo($product_id, $postData, $mainImgFile, $additionalImages)
@@ -75,15 +105,16 @@ class Product
         $scale = $postData["scale"];
         $quantity = $postData["quantity"];
 
-        // Xử lý và di chuyển ảnh chính vào thư mục upload
-        $uploadDirMain = '../assets/img/upload/';
-        $uploadFileMain = $uploadDirMain . basename($mainImgFile['name']);
-        move_uploaded_file($mainImgFile['tmp_name'], $uploadFileMain);
-        $mainImg = $uploadFileMain;
-
-        // Cập nhật thông tin sản phẩm
+        // Kiểm tra xem người dùng có tải lên ảnh mới không
+        if (!empty($mainImgFile['tmp_name'])) {
+            // Xử lý và di chuyển ảnh chính vào thư mục upload
+            $uploadDirMain = '../assets/img/upload/';
+            $uploadFileMain = $uploadDirMain . basename($mainImgFile['name']);
+            move_uploaded_file($mainImgFile['tmp_name'], $uploadFileMain);
+            $mainImg = $uploadFileMain;
+            // Cập nhật thông tin sản phẩm
+        }
         $this->updateProduct($product_id, $productName, $catalog_id, $studio, $productPrice, $scale, $mainImg, $quantity);
-
         // Xử lý và di chuyển ảnh phụ vào thư mục upload (nếu có)
         if (!empty($additionalImages['tmp_name'])) {
             $additionalImagePaths = [];
@@ -103,5 +134,78 @@ class Product
         $query = $this->db->query("SELECT COUNT(*) AS total FROM product");
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
+    }
+
+    function showCart($cartItems)
+    {
+        $totalAmount = 0;
+        // Bắt đầu bảng
+        echo "<table class='table align-middle mb-0 bg-white'>";
+        echo "<thead class='bg-light'>";
+        echo "<tr class='text-center'>";
+        echo "<th scope='col' style='width: 30%;'>Ảnh</th>";
+        echo "<th scope='col' style='width: 70%;'>Sản phẩm</th>";
+        echo "<th scope='col' style='width: 10%;'>Đơn giá</th>";
+        echo "<th scope='col' style='width: 5%;'>SL</th>";
+        echo "<th scope='col' style='width: 10%;'>Tổng giá</th>";
+        echo "<th scope='col' style='width: 5%;'>Lựa chọn</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody class='text-center'>";
+
+        // Duyệt qua các mục trong giỏ hàng
+        foreach ($cartItems as $item) {
+            $product_id = $item['product_id'];
+            $product = $this->getProductByProductId($product_id);
+            if ($product) {
+                // Hiển thị thông tin sản phẩm và số lượng từ session
+                echo "<tr>";
+                echo "<td><img src='../assets/img/upload/" . basename($product['img']) . "' alt='Product Image'></td>";
+                echo "<td>" . $product['productName'] . "</td>";
+                echo "<td>" . number_format($product['productPrice'], 0, '.', '.') . "đ</td>";
+                echo "<td>" . $item['quantity'] . "</td>"; // Hiển thị số lượng từ session
+                // Tính tổng giá
+                $totalPrice = $product['productPrice'] * $item['quantity'];
+                echo "<td>" . number_format($totalPrice, 0, '.', '.') . "đ</td>";
+                // Hiển thị các lựa chọn (nếu cần)
+                echo "<td>
+                        <a href='cart.php?action=remove&product_id=" . $item['product_id'] . "'>
+                            <button class='btn btn-danger btn-block'>Xóa</button>
+                        </a>
+                        
+                </td>";
+                echo "</tr>";
+            }
+            $totalAmount = $totalAmount + $totalPrice;
+        }
+        // Kết thúc bảng
+        echo "</tbody>";
+        echo "<tfoot>";
+        echo "<tr>";
+        echo "<td colspan='4' class='text-start'><strong>Tổng tiền:</strong></td>";
+        // Tính tổng tiền của giỏ hàng
+        echo "<td class='text-end'><strong>" . number_format($totalAmount, 0, '.', '.') . "đ</strong></td>";
+        echo "<td>
+                <a href='cart.php?action=clearall'>
+                    <button class='btn btn-warning btn-block'>Clear</button>
+                </a>
+                
+            </td>";
+        echo "</tr>";
+        echo "</tfoot>";
+        echo "</table>";
+        return $totalAmount;
+    }
+
+    public function updateProductQuantity($product_id, $quantity)
+    {
+        $query = $this->db->prepare("UPDATE product SET quantity = quantity - ? WHERE product_id = ?");
+        $query->execute([$quantity, $product_id]);
+    }
+
+    public function updateProductQuantityPlug($product_id, $quantity)
+    {
+        $query = $this->db->prepare("UPDATE product SET quantity = quantity + ? WHERE product_id = ?");
+        $query->execute([$quantity, $product_id]);
     }
 }

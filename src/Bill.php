@@ -18,13 +18,14 @@ class Bill
 
     public function getAllBillByBillId($bill_id)
     {
-        $query = $this->db->query("SELECT bill.*, users.name, users.email, users.phone, users.address
+        $query = $this->db->prepare("SELECT bill.*, users.name, users.email, users.phone, users.address
                                     FROM bill
                                     INNER JOIN users ON bill.user_id = users.user_id
                                     WHERE bill.bill_id = ?");
         $query->execute([$bill_id]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public function getAllBillByUserId($user_id)
     {

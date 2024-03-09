@@ -504,7 +504,8 @@ body {
   background: var(--grey);
 }
 
-.content main .bottom-data .orders table tr td .status {
+.content main .bottom-data .orders table tr td .status,
+.bill-detail-status .status {
   font-size: 10px;
   padding: 6px 16px;
   color: var(--light);
@@ -512,19 +513,45 @@ body {
   font-weight: 700;
 }
 
-.content main .bottom-data .orders table tr td .status.completed {
+.bill-detail-status {
+  display: flex;
+  text-align: center;
+  align-items: baseline;
+}
+
+.bill-detail-status p {
+  padding-right: 5px;
+}
+
+.bill-detail-status .status {
+  font-size: 13px;
+  padding: 5px 10px;
+  color: var(--light);
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.bill-detail-status .status:hover {
+  cursor: pointer;
+}
+
+.content main .bottom-data .orders table tr td .status.completed,
+.bill-detail-status .status.completed {
   background: var(--success);
 }
 
-.content main .bottom-data .orders table tr td .status.process {
+.content main .bottom-data .orders table tr td .status.process,
+.bill-detail-status .status.process {
   background: var(--primary);
 }
 
-.content main .bottom-data .orders table tr td .status.pending {
+.content main .bottom-data .orders table tr td .status.pending,
+.bill-detail-status .status.pending {
   background: var(--warning);
 }
 
-.content main .bottom-data .orders table tr td .status.cancelled {
+.content main .bottom-data .orders table tr td .status.cancelled,
+.bill-detail-status .status.cancelled {
   background: #000;
 }
 

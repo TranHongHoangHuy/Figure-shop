@@ -9,6 +9,7 @@ $bill_id = $_POST['bill_id'];
 
 $pdo = DBConnection::getConnection(); // Kết nối đến cơ sở dữ liệu
 $billManager = new Bill($pdo);
+$bills = $billManager->getAllBillByBillId($bill_id);
 $bills_details = $billManager->getBillDetail($bill_id);
 ?>
 <!DOCTYPE html>
@@ -43,6 +44,42 @@ require '../partials/header_admin.php';
                     <div class="header">
                         <i class='bx bx-receipt'></i>
                         <h3>Thông tin chi tiết đơn hàng</h3>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p><b>Khách hàng:</b> <?php echo $bills['name']; ?></p>
+                            <p><b>Địa chỉ:</b> <?php echo $bills['address']; ?></p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p><b>SĐT:</b> <?php echo $bills['phone']; ?></p>
+                            <p><b>Email:</b> <?php echo $bills['email']; ?></p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p><b>Tổng tiền:</b> <?php echo number_format($bills['total_amount'], 0, '.', '.'); ?>đ</p>
+                            <div class="bill-detail-status">
+                                <p>Trạng thái: </p>
+                                <?php
+                                $statusClass = '';
+                                switch ($bills['status']) {
+                                    case 'Đã giao hàng':
+                                        $statusClass = 'completed';
+                                        break;
+                                    case 'Đã xác nhận':
+                                        $statusClass = 'process';
+                                        break;
+                                    case 'Đã hủy đơn':
+                                        $statusClass = 'cancelled';
+                                        break;
+                                    default:
+                                        $statusClass = 'pending';
+                                        break;
+                                }
+                                // echo '<td class="text-center"><span class="status ' . $statusClass . '">' . htmlspecialchars($bill['status']) . '</span></td>';
+                                echo '<span class="status ' . $statusClass . '" data-bill_id="' . $bills['bill_id'] . '">' . htmlspecialchars($bills['status']) . '</span>';
+                                ?>
+                            </div>
+                        </div>
                     </div>
                     <table id="example" class="table table-striped text-center" style="width:100%">
                         <thead>
@@ -65,6 +102,37 @@ require '../partials/header_admin.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- modal -->
+            <!-- Modal -->
+            <div class=" modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="statusModalLabel">Chọn trạng thái</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="./update_status.php" method="POST">
+                                <input type="hidden" name="bill_id" id="bill_id">
+                                <div class="mb-3">
+                                    <label for="statusSelect" class="form-label">Trạng thái</label>
+                                    <select class="form-select" name="status" id="statusSelect">
+                                        <option value="pending">Chưa xác nhận</option>
+                                        <option value="confirmed">Đã xác nhận</option>
+                                        <option value="delivered">Đã giao hàng</option>
+                                        <option value="cancelled">Đã hủy đơn</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>

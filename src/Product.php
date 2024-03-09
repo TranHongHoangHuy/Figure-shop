@@ -160,7 +160,7 @@ class Product
             if ($product) {
                 // Hiển thị thông tin sản phẩm và số lượng từ session
                 echo "<tr>";
-                echo "<td><img src='../assets/img/upload/" . basename($product['img']) . "' alt='Product Image'></td>";
+                echo "<td><img src='" . $product['img'] . "' alt='Product Image'></td>";
                 echo "<td>" . $product['productName'] . "</td>";
                 echo "<td>" . number_format($product['productPrice'], 0, '.', '.') . "đ</td>";
                 echo "<td>" . $item['quantity'] . "</td>"; // Hiển thị số lượng từ session

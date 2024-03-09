@@ -6,7 +6,7 @@
     <ul class="side-menu">
         <li><a href="./admin_dash_board.php"><i class='bx bxs-dashboard'></i>Admin</a></li>
         <li><a href="../index.php"><i class='bx bx-store-alt'></i>Shop</a></li>
-        <li class=""><a href="#"><i class='bx bx-analyse'></i>Thống kê</a></li>
+        <li class=""><a href="../public/analysis.php"><i class='bx bx-analyse'></i>Thống kê</a></li>
         <li><a href="./show_product.php"><i class='bx bx-package'></i>Sản phẩm</a></li>
         <li><a href="./show_user.php"><i class='bx bx-group'></i>Users</a></li>
         <li><a href="./show_bill.php"><i class='bx bx-receipt'></i>Đơn hàng</a></li>

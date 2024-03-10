@@ -29,12 +29,26 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
             <ul class="navbar-nav logo mx=0">
                 <?php
                 if (isset($_SESSION['user_id'])) { // Kiểm tra session
-                    echo '<li class="nav-item test mx-2">
-                                <a class="nav-link" href="../public/logout.php">
-                                    <i class="bx bx-log-out"></i>
-                                    Đăng xuất
-                                </a>
-                        </li>';
+                ?> <li class="nav-item dropdown test mx-2">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bx bx-user"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex user-setting" href="../public/user_change_info.php?user_id=<?php echo $_SESSION['user_id']; ?>">
+                                    Thay đổi thông tin</a></li>
+                            <li><a class="dropdown-item d-flex user-setting" href="../public/user_bill_history.php?user_id=<?php echo $_SESSION['user_id']; ?>">
+                                    Lịch sử mua hàng</a></li>
+                            <li><a class="dropdown-item d-flex user-setting" href="../public/logout.php">
+                                    Đăng xuất</a></li>
+
+                        </ul>
+                        <!-- <a class="nav-link" href="../public/logout.php">
+                            
+                            Đăng xuất
+                        </a> -->
+
+                    </li>
+                <?php
                 } else {
                     echo '<li class="nav-item test mx-2">
                                 <a class="nav-link" href="../public/login.php">
@@ -77,9 +91,9 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
                     Nhân vật
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Luffy</a></li>
-                    <li><a class="dropdown-item" href="#">Hatsune Miku</a></li>
-                    <li><a class="dropdown-item" href="#">Tokisaki Kurumi</a></li>
+                    <li><a class="dropdown-item" href="../public/characters.php?character_name=Elaina">Elaina</a></li>
+                    <li><a class="dropdown-item" href="../public/characters.php?character_name=Hatsune Miku">Hatsune Miku</a></li>
+                    <li><a class="dropdown-item" href="../public/characters.php?character_name=Tokisaki Kurumi">Tokisaki Kurumi</a></li>
                 </ul>
             </li>
             <li class="nav-item">

@@ -22,6 +22,9 @@
   --red-color-7: #d72831;
   --red-color-5: rgb(205, 92, 92);
   --red-color-6: rgb(240, 128, 128);
+  --primary: #1976d2;
+  --warning: #fbc02d;
+  --success: #388e3c;
 }
 a {
   text-decoration: none;
@@ -242,10 +245,10 @@ a {
 
 .text-search-result {
   margin: 40px 0;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 600;
-  color: var(--black-color);
-  background-color: var(--white-color);
+  color: #fff;
+  /* background-color: var(--white-color); */
 }
 
 .social {
@@ -535,4 +538,79 @@ a {
   font-size: 28px;
   font-weight: 400;
   background-color: #f8f8f8;
+}
+
+.miku-info {
+  background-color: #f8f8f8;
+}
+
+.miku-info .miku-info-img img {
+  width: 100%;
+  height: auto;
+}
+.miku-info .miku-info-img {
+  padding: 0;
+}
+
+.miku-info .miku-info-content {
+  text-align: justify;
+}
+
+.search-header {
+  padding: 0 0 10px;
+  margin: 30px 0 20px;
+  background-color: rgb(219, 200, 189);
+}
+
+.search-header .text-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-data .orders table tr td .status.completed,
+.bill-detail-status .status.completed {
+  background: var(--success);
+}
+
+.bottom-data .orders table tr td .status.process,
+.bill-detail-status .status.process {
+  background: var(--primary);
+}
+
+.bottom-data .orders table tr td .status.pending,
+.bill-detail-status .status.pending {
+  background: var(--warning);
+}
+
+.bottom-data .orders table tr td .status.cancelled,
+.bill-detail-status .status.cancelled {
+  background: #000;
+}
+
+.bottom-data .orders table tr td .status,
+.bill-detail-status .status {
+  font-size: 10px;
+  padding: 6px 16px;
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.bill-detail-status {
+  display: flex;
+  text-align: center;
+  align-items: baseline;
+}
+
+.bill-detail-status p {
+  padding-right: 5px;
+}
+
+.bill-detail-status .status {
+  font-size: 13px;
+  padding: 5px 10px;
+  /* color: var(--light); */
+  border-radius: 5px;
+  font-weight: 700;
 }

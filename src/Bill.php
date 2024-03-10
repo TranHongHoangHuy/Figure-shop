@@ -110,4 +110,18 @@ class Bill
         $query = $this->db->prepare("INSERT INTO bill_details (bill_id, product_id, bill_quantity) VALUES (?, ?, ?)");
         $query->execute([$bill_id, $product_id, $bill_quantity]);
     }
+
+    public function getAnalysisDailys()
+    {
+        // Truy vấn cơ sở dữ liệu để lấy dữ liệu Ngày từ bảng bill
+        $query = $this->db->query("SELECT DATE(bill_date) AS ngay, SUM(total_amount) AS tong_doanh_thu FROM bill GROUP BY DATE(bill_date)");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAnalysisMonthly()
+    {
+        // Truy vấn cơ sở dữ liệu để lấy dữ liệu Ngày từ bảng bill
+        $query = $this->db->query("SELECT MONTH(bill_date) AS ngay, SUM(total_amount) AS tong_doanh_thu FROM bill GROUP BY MONTH(bill_date)");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

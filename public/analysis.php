@@ -8,18 +8,29 @@ $productManager = new Product($pdo);
 $userManager = new User($pdo);
 $billManager = new Bill($pdo);
 
-// Truy vấn cơ sở dữ liệu để lấy dữ liệu Ngày từ bảng bill
-$query = $pdo->query("SELECT DATE(bill_date) AS ngay, SUM(total_amount) AS tong_doanh_thu FROM bill GROUP BY DATE(bill_date)");
-$results = $query->fetchAll(PDO::FETCH_ASSOC);
-
+$results = []; // Khởi tạo mảng rỗng
+$ngay = '';
 // Khởi tạo mảng labels và data
 $labels = [];
 $data = [];
 
-// Duyệt qua kết quả từ truy vấn để điền dữ liệu vào mảng labels và data
-foreach ($results as $row) {
-    $labels[] = $row['ngay'];
-    $data[] = $row['tong_doanh_thu'];
+if (isset($_GET['action'])) {
+    if ($_GET['action'] == "month") {
+        $results = $billManager->getAnalysisMonthly();
+        foreach ($results as $row) {
+            $labels[] = $row['ngay'];
+            $data[] = $row['tong_doanh_thu'];
+            $ngay = 'tháng';
+        }
+    }
+    if ($_GET['action'] == "daily") {
+        $results = $billManager->getAnalysisDailys();
+        foreach ($results as $row) {
+            $labels[] = $row['ngay'];
+            $data[] = $row['tong_doanh_thu'];
+            $ngay = 'ngày';
+        }
+    }
 }
 
 ?>
@@ -141,8 +152,8 @@ require '../partials/header_admin.php';
                             Thống kê
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="statDropdown">
-                            <li><a class="dropdown-item" href="./analysis.php" id="daily">Theo ngày</a></li>
-                            <li><a class="dropdown-item" href="./analysis_month.php" id="monthly">Theo tháng</a></li>
+                            <li><a class="dropdown-item" href="./analysis.php?action=daily">Theo ngày</a></li>
+                            <li><a class="dropdown-item" href="./analysis.php?action=month">Theo tháng</a></li>
                         </ul>
                     </div>
                     <div class="analysis">
@@ -150,19 +161,19 @@ require '../partials/header_admin.php';
                             <!-- analysis daily -->
                             <div class="row" id="daily">
                                 <div class="col">
-                                    <h2 class="text-center mb-4">Thống kê doanh thu theo ngày</h2>
-                                    <table class="table table-striped">
+                                    <h2 class="text-center mb-4">Thống kê doanh thu theo <?php echo $ngay ?></h2>
+                                    <table class="table table-striped analys-table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Ngày</th>
-                                                <th scope="col">Doanh thu (VNĐ)</th>
+                                                <th class="text-start py-3 col-lg-6" scope="col" style="font-size: 18px;"><?php echo ucfirst($ngay) ?></th>
+                                                <th class="text-start py-3 ps-0 col-lg-6" scope="col" style="font-size: 18px;">Doanh thu (VNĐ)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($results as $row) : ?>
                                                 <tr>
-                                                    <td>Ngày <?php echo $row['ngay']; ?></td>
-                                                    <td><?php echo number_format($row['tong_doanh_thu'], 0, ',', '.'); ?></td>
+                                                    <td><?php echo ucfirst($ngay) ?> <?php echo $row['ngay']; ?></td>
+                                                    <td><?php echo number_format($row['tong_doanh_thu'], 0, ',', '.'); ?>đ</td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

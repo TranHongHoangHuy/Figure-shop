@@ -208,4 +208,11 @@ class Product
         $query = $this->db->prepare("UPDATE product SET quantity = quantity + ? WHERE product_id = ?");
         $query->execute([$quantity, $product_id]);
     }
+
+    public function getAllProductsCharacters($character_name)
+    {
+        $query = $this->db->prepare("SELECT * FROM product  WHERE productName LIKE ?");
+        $query->execute(["%$character_name%"]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

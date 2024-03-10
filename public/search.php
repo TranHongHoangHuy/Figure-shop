@@ -42,9 +42,15 @@ if (isset($_GET['keyword'])) {
         <div class="container">
             <!-- Show product -->
             <div class="text-center">
-                <div>
-                    <h1 class='text-search-result'>Kết quả tìm kiếm: <?php echo $keyword; ?></h1>
+                <div class="row search-header">
+                    <div class="col-lg-6">
+                        <img src="../assets/img/slide/banner_search.png" alt="" style="width: 100%; object-fit: cover;">
+                    </div>
+                    <div class="col-lg-6 text-search">
+                        <h1 class='text-search-result'>Kết quả tìm kiếm: <?php echo $keyword; ?></h1>
+                    </div>
                 </div>
+
                 <div id="gallery" class="row">
                     <?php foreach ($products as $product) { ?>
                         <div class="col-lg-2 col-md-3 col-sm-6 card product">

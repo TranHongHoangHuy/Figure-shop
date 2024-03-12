@@ -70,7 +70,14 @@ if (isset($_POST['submit'])) {
     }
     // Xóa thông tin giỏ hàng sau khi tạo đơn hàng thành công
     unset($_SESSION['cart']);
-    echo "Đã tạo đơn hàng thành công!";
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var modal = document.getElementById("successModal");';
+    echo 'var myModal = new bootstrap.Modal(modal);';
+    echo 'myModal.show();';
+    echo '});';
+    echo '</script>';
+    // echo "Đã tạo đơn hàng thành công!";
 }
 ?>
 <!DOCTYPE html>
@@ -142,11 +149,28 @@ if (isset($_POST['submit'])) {
                 </div>
                 <input type="hidden" name="totalAmount" value="<?php echo $totalAmount ?>">
                 <div class="form-group m-4">
-                    <button type="submit" name="submit" class="btn btn-primary" style="width: 100%;">Mua hàng</button>
+                    <button type="submit" id="muahang" name="submit" class="btn btn-primary" style="width: 100%;">Mua hàng</button>
                 </div>
             </form>
         </div>
     </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Bạn đã đặt hàng thành công, cửa hàng sẽ sớm liên hệ với bạn</h4>
+                    <a href="../index.php"><button type="button" class="btn btn-primary">Tiếp tục mua hàng</button></a>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
     <?php
     require '../partials/footer.php';
@@ -155,6 +179,13 @@ if (isset($_POST['submit'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="../assets/js/main.js"></script>
+    <script>
+        // $(document).ready(function() {
+        //     $('#muahang').click(function() {
+        //         $('#successModal').modal('show');
+        //     });
+        // });
+    </script>
 </body>
 
 </html>

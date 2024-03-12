@@ -41,6 +41,13 @@ if (isset($_POST['add_to_cart'])) {
             'quantity' => $quantity
         );
     }
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var modal = document.getElementById("successModal");';
+    echo 'var myModal = new bootstrap.Modal(modal);';
+    echo 'myModal.show();';
+    echo '});';
+    echo '</script>';
 }
 
 ?>
@@ -94,7 +101,7 @@ if (isset($_POST['add_to_cart'])) {
                                 <!-- <button class="btn btn-primary quantity-btn" onclick="increment()">+</button> -->
                             </div>
                             <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                            <button type="submit" class="btn btn-primary" name="add_to_cart"><strong>Mua hàng</strong></button>
+                            <button type="submit" id="add_to_cart" class="btn btn-primary" name="add_to_cart"><strong>Mua hàng</strong></button>
                         </form>
                         <ul class="product-list">
                             <li><i class="fa fa-truck"></i> Giao hàng nhanh toàn quốc <a href="#">Xem chi tiết</a></li>
@@ -168,23 +175,23 @@ if (isset($_POST['add_to_cart'])) {
                 </div>
             </div>
         </div>
-
-
-        <!-- Modal -->
-        <div class="modal" id="successModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Thông báo</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Sản phẩm đã được thêm vào giỏ hàng.
-                    </div>
+    </main>
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Thêm vào giỏ hàng thành công</h4>
+                    <a href="./cart.php"><button type="button" class="btn btn-primary">Giỏ hàng</button></a>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Đóng</button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
     <?php
     require '../partials/footer.php';
     ?>

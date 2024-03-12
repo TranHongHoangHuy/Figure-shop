@@ -105,6 +105,16 @@ class Product
         $scale = $postData["scale"];
         $quantity = $postData["quantity"];
 
+        // Lấy thông tin sản phẩm hiện tại
+        $product = $this->getProductByProductId($product_id);
+        $mainImg = $product['img']; // Đường dẫn ảnh chính hiện tại
+        // Lấy danh sách ảnh phụ hiện tại
+        $currentAdditionalImages = $this->getProductImages($product_id);
+        $additionalImagePaths = [];
+        foreach ($currentAdditionalImages as $image) {
+            $additionalImagePaths[] = $image['img_path'];
+        }
+
         // Kiểm tra xem người dùng có tải lên ảnh mới không
         if (!empty($mainImgFile['tmp_name'])) {
             // Xử lý và di chuyển ảnh chính vào thư mục upload
@@ -112,21 +122,23 @@ class Product
             $uploadFileMain = $uploadDirMain . basename($mainImgFile['name']);
             move_uploaded_file($mainImgFile['tmp_name'], $uploadFileMain);
             $mainImg = $uploadFileMain;
-            // Cập nhật thông tin sản phẩm
         }
-        $this->updateProduct($product_id, $productName, $catalog_id, $studio, $productPrice, $scale, $mainImg, $quantity);
+
         // Xử lý và di chuyển ảnh phụ vào thư mục upload (nếu có)
         if (!empty($additionalImages['tmp_name'])) {
-            $additionalImagePaths = [];
+            // $additionalImagePaths = [];
             foreach ($additionalImages['tmp_name'] as $index => $tmp_name) {
                 $uploadDirAdditional = '../assets/img/upload/';
                 $uploadFileAdditional = $uploadDirAdditional . basename($additionalImages['name'][$index]);
                 move_uploaded_file($tmp_name, $uploadFileAdditional);
                 $additionalImagePaths[] = $uploadFileAdditional;
             }
-            // Cập nhật ảnh phụ vào bảng imglist
-            $this->updateProductImage($product_id, $additionalImagePaths);
         }
+
+        // Cập nhật thông tin sản phẩm
+        $this->updateProduct($product_id, $productName, $catalog_id, $studio, $productPrice, $scale, $mainImg, $quantity);
+        // Cập nhật ảnh phụ vào bảng imglist
+        $this->updateProductImage($product_id, $additionalImagePaths);
     }
 
     function getTotalNumberOfProduct()

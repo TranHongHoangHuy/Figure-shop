@@ -4,7 +4,7 @@
         <div class="container">
             <div class="home-intro text-center">
                 <div class="home-intro-title">
-                    <h2>Về JH FIGURE - Shop mô hình chính hãng Nhật Bản</h2>
+                    <h2>Về FIGURE SHOP - Shop mô hình chính hãng Nhật Bản</h2>
                 </div>
             </div>
             <div class="home-intro-content">

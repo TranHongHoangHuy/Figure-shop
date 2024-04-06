@@ -5,11 +5,15 @@ require_once '../src/DBConnection.php';
 require_once '../src/Product.php';
 require_once '../src/User.php';
 require_once '../src/Bill.php';
+require_once '../mail/sendmail.php';
+require_once '../partials/email_content.php';
+
 
 $pdo = DBConnection::getConnection(); // Kết nối đến cơ sở dữ liệu
 $productManager = new Product($pdo);
 $userManager = new User($pdo);
 $billManager = new Bill($pdo);
+$mail = new sendmail();
 
 if (isset($_SESSION['user_id'])) {
     $user = $userManager->getUserByUserId($_SESSION['user_id']);
@@ -42,10 +46,13 @@ if (isset($_GET['action'])) {
 if (isset($_POST['submit'])) {
     $totalAmount = $_POST['totalAmount'];
     $notes = $_POST['notes'];
+    $email = '';
     // Kiểm tra xem người dùng có đăng nhập hay chưa
     if (isset($_SESSION['user_id'])) {
         // Đã đăng nhập
         $user_id = $_SESSION['user_id'];
+        $user = $userManager->getUserByUserId($user_id);
+        $email = $user['email'];
     } else {
         // Chưa đăng nhập, tạo user mới
         $email = $_POST['email'];
@@ -68,16 +75,16 @@ if (isset($_POST['submit'])) {
         $billManager->addBillDetail($bill_id, $product_id, $bill_quantity);
         // $productManager->updateProductQuantity($product_id, $bill_quantity);
     }
+
+    $title = "Đặt hàng tại Figure Shop thành công";
+    $bills_details = $billManager->getBillDetail($bill_id);
+    $emailContent = getEmailContent($bills_details, $totalAmount);
+    $content = $emailContent;
+    header('Location:../partials/thanks.php');
+    $mail->sentmail($title, $content, $email);
+
     // Xóa thông tin giỏ hàng sau khi tạo đơn hàng thành công
     unset($_SESSION['cart']);
-    echo '<script>';
-    echo 'document.addEventListener("DOMContentLoaded", function() {';
-    echo 'var modal = document.getElementById("successModal");';
-    echo 'var myModal = new bootstrap.Modal(modal);';
-    echo 'myModal.show();';
-    echo '});';
-    echo '</script>';
-    // echo "Đã tạo đơn hàng thành công!";
 }
 ?>
 <!DOCTYPE html>

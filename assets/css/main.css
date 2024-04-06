@@ -614,3 +614,33 @@ a {
   border-radius: 5px;
   font-weight: 700;
 }
+
+.thanks-content {
+  height: 100%;
+  margin: 50px 0;
+}
+.thanks-content .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thanks-content .content h2 {
+  font-size: 40px;
+  font-weight: 600;
+  padding-bottom: 30px;
+}
+
+.thanks-content .content p {
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.thanks-content .img {
+  text-align: center;
+}
+.thanks-content .img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

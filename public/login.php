@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
-                    <h3 class="mb-3">Login Now</h3>
+                    <h3 class="mb-3">Đăng nhập</h3>
                     <div class="bg-white shadow rounded">
                         <div class="row">
                             <div class="col-md-7 pe-0">
@@ -74,10 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <div class="form-check">
+                                            <!-- <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="inlineFormCheck">
                                                 <label class="form-check-label" for="inlineFormCheck">Remember me</label>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="col-sm-6">
@@ -85,15 +85,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
 
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary px-4 float-end mt-4">login</button>
+                                            <button type="submit" class="btn btn-primary px-4 float-end mt-4">đăng nhập</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="col-md-5 ps-0 d-none d-md-block">
                                 <div class="form-right h-100 bg-primary text-white text-center pt-5">
-                                    <i class="bi bi-shop"></i>
-                                    <h2 class="fs-1">Welcome Back!!!</h2>
+                                    <a href="../index.php" style="color: white;">
+                                        <i class="bi bi-shop"></i>
+                                    </a>
+                                    <!-- <i class="bi bi-shop"></i> -->
+                                    <h2 class="fs-1">Xin Chào!!!</h2>
                                 </div>
                             </div>
                         </div>

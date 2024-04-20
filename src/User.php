@@ -42,6 +42,7 @@ class User
     {
         // Kiểm tra xem người dùng đã tồn tại hay chưa
         if ($this->isUserExistsByEmail($email)) {
+            echo '<script>alert("Email đã được sử dụng")</script>';
             return false;
         }
 
@@ -71,13 +72,18 @@ class User
         $query->execute([$email]);
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
+        // Nếu không tìm thấy người dùng, chuyển hướng đến trang đăng ký
+        if (!$user) {
+            echo '<script>alert("Email chưa đăng ký"); window.location.href = "signup.php";</script>';
+            exit;
+        }
+
         // Nếu có người dùng, thực hiện đăng nhập
         if ($user && password_verify($password, $user['password'])) {
             // Lưu thông tin người dùng vào session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['name'] = $user['name'];
             $_SESSION['role_id'] = $user['role_id'];
-
             // Kiểm tra nếu là admin, chuyển hướng đến trang admin.php
             if ($this->isAdmin($user['user_id'])) {
                 header('Location: admin_dash_board.php');
@@ -88,8 +94,8 @@ class User
                 exit;
             }
         } else {
-            // return false;
-            header('Location: login.php');
+            // return false
+            echo '<script>alert("Sai mật khẩu"); window.location.href = "login.php";</script>';
             exit;
         }
     }

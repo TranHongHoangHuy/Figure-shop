@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
 
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary px-4 float-end mt-4">đăng nhập</button>
+                                            <button type="submit" class="btn btn-primary px-4 float-end mt-4">Đăng nhập</button>
                                         </div>
                                     </form>
                                 </div>

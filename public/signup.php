@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="col-md-5 ps-0 d-none d-md-block">
                                 <div class="form-right h-100 bg-primary text-white text-center pt-5">
                                     <i class="bi bi-shop"></i>
-                                    <h2 class="fs-1">Welcome!!!</h2>
+                                    <h2 class="fs-1">Xin Chào!!!</h2>
                                 </div>
                             </div>
                         </div>
